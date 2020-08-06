@@ -21,14 +21,17 @@ class MapProvider  with ChangeNotifier {
   LatLng _location;
 
   bool _loading = true;
+  // Se debe llamar al saber que se tiene el permiso de ubicación o es decir: 
+  //    Se debe llamar este metodo despues de que el 
+  // "
+  //    final PermissionStatus status = await Permission.locationWhenInUse.request();
+  // "
+  // sea de tipo 
+  // "
+  // PermissionStatus.granted
+  // "
 
-
-  MapProvider(){
-
-    this._init();
-  }
-
-  _init()  {
+  init()  {
     _subscription = _geolocator.getPositionStream( _locationOptions ).listen(
       
       ( Position position) { 

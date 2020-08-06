@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:googlefluttermaps/src/my_Example.dart/pages/home_Page.dart';
+import 'package:googlefluttermaps/src/my_Example.dart/providers/provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 class RequestPermissionPage extends StatefulWidget {
   static const routName = 'RequestPermissionPage';
@@ -9,6 +11,8 @@ class RequestPermissionPage extends StatefulWidget {
 }
 
 class _RequestPermissionPageState extends State<RequestPermissionPage> with WidgetsBindingObserver{
+
+  MapProvider _mapProvider;
   
   @override
   void initState() { 
@@ -43,12 +47,11 @@ class _RequestPermissionPageState extends State<RequestPermissionPage> with Widg
     Navigator.pushReplacementNamed(context, HomePage.routName);
   }
 
-
+  
   Future<void> _request() async{
-    final PermissionStatus status = 
-      await Permission.locationWhenInUse.request();
+    final PermissionStatus status = await Permission.locationWhenInUse.request();
 
-      print('satatus: $status');
+      print('satatus::::::::::::::::::::::::::: $status');
 
       switch (status){
         
@@ -56,7 +59,8 @@ class _RequestPermissionPageState extends State<RequestPermissionPage> with Widg
           
           break;
         case PermissionStatus.granted:
-          // this._goToHome(); 
+          // Se debe llamar al saber que se tiene permiso de ubicación
+          _mapProvider.init();
           
           break;
         case PermissionStatus.denied:
@@ -73,6 +77,9 @@ class _RequestPermissionPageState extends State<RequestPermissionPage> with Widg
   
   @override
   Widget build(BuildContext context) {
+
+    _mapProvider = Provider.of<MapProvider>(context);
+
     return Scaffold(
       body: Container(  
         width: double.infinity,
